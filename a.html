@@ -125,7 +125,8 @@
         </div>
         
         <script>
-            const api_key = nasaApi;
+            const nasaApiKey = "__nasaApi__";
+            const api_key = `https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`;
             async function getNews() {
             const newswait = document.getElementById('news1');
             newswait.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
