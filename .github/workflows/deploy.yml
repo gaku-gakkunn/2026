@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # メインブランチが master の場合は master に書き換えてください
+    branches: [ main ] # メインブランチ名が master の場合は master に書き換えてください
 
 permissions:
   contents: read
@@ -21,8 +21,15 @@ jobs:
 
       - name: Inject API Key
         run: |
-          # HTML内にある __NASA_API_KEY__ を、GitHubに保存した本物のAPIキーに自動で置き換えます
-          sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' index.html
+          # 📁 2026フォルダ直下の index.html を狙い撃ちして書き換えます
+          if [ -f "index.html" ]; then
+            sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' index.html
+          elif [ -f "2026/index.html" ]; then
+            sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' 2026/index.html
+          else
+            echo "エラー: index.html がどうしても見つかりません"
+            exit 1
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -30,6 +37,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # 📁 確実に正しい場所をビルド対象にします
           path: '.'
 
       - name: Deploy to GitHub Pages
