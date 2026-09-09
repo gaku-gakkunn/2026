@@ -21,7 +21,8 @@ jobs:
 
       - name: Inject API Key
         run: |
-          find . -name "*.html" -type f -exec sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' {} +
+          # 🎯 シングルクォーテーションで囲まれた __NASA_API_KEY__ を本物のキーに確実に置き換えます
+          find . -name "*.html" -type f -exec sed -i "s/'__NASA_API_KEY__'/'${{ secrets.NASA_API_KEY }}'/g" {} +
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
