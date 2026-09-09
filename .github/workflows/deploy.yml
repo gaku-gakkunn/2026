@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # メインブランチ名が master の場合は master に書き換えてください
+    branches: [ main ] # メインブランチが master の場合は master に書き換えてください
 
 permissions:
   contents: read
@@ -16,28 +16,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      # 1. 確実にリポジトリのファイルをすべて取得します
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 2. 確実に「リポジトリの直下」にある index.html を狙い撃ちします
       - name: Inject API Key
         run: |
-          # 📁 2026フォルダ直下の index.html を狙い撃ちして書き換えます
-          if [ -f "index.html" ]; then
-            sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' index.html
-          elif [ -f "2026/index.html" ]; then
-            sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' 2026/index.html
-          else
-            echo "エラー: index.html がどうしても見つかりません"
-            exit 1
-          fi
+          cd ${{ github.workspace }}
+          sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # 3. アップロードする場所も直下に固定します
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 📁 確実に正しい場所をビルド対象にします
           path: '.'
 
       - name: Deploy to GitHub Pages
