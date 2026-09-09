@@ -16,20 +16,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      # 1. 確実にリポジトリのファイルをすべて取得します
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. 確実に「リポジトリの直下」にある index.html を狙い撃ちします
+      # 💡 フォルダの場所や大文字小文字（index.html / Index.html）に関わらず、
+      # 見つかったすべてのHTMLファイルの中身を力づくで書き換える命令に変えました！
       - name: Inject API Key
         run: |
-          cd ${{ github.workspace }}
-          sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' index.html
+          find . -name "*.html" -type f -exec sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' {} +
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      # 3. アップロードする場所も直下に固定します
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
