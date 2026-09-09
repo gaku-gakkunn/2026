@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # メインブランチが master の場合は master に書き換えてください
+    branches: [ main ] # メインブランチ名が master の場合は master に書き換えてください
 
 permissions:
   contents: read
@@ -16,23 +16,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      # ⭕ 2026年最新の Node 24 対応版にアップデート
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      # 💡 フォルダの場所や大文字小文字（index.html / Index.html）に関わらず、
-      # 見つかったすべてのHTMLファイルの中身を力づくで書き換える命令に変えました！
+      # 💡 どんな状態のHTMLでも確実に力づくで書き換える無敵コマンド
       - name: Inject API Key
         run: |
           find . -name "*.html" -type f -exec sed -i 's/__NASA_API_KEY__/${{ secrets.NASA_API_KEY }}/g' {} +
 
+      # ⭕ 2026年最新の Node 24 対応版にアップデート
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
+      # ⭕ 2026年最新の Node 24 対応版にアップデート
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: '.'
 
+      # ⭕ 2026年最新の Node 24 対応版にアップデート
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
