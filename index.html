@@ -112,9 +112,9 @@
         <div class="date">
             <h3>日付の選択</h3>
             <!-- <input type="date" id="date" onchange="getNews()"> -->
-            <input type="button" class="button" value="今日のニュース" onclick="getNews(today)">
-            <input type="button" class="button" value="昨日のニュース" onclick="getNews(yesterday)">
-            <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews(random)">
+            <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
+            <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
+            <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
         </div>
         <div class="flex">
         <main id="news1" class = "news">
@@ -137,15 +137,15 @@
             newswait2.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
             `;
             let getdate = document.getElementById('button');
-            if (date == today) {
+            if (date == 'today') {
                 let setdate = new Date().toLocaleDateString('sv-SE');
                 api = api_key + '&date=' + setdate;
-            }else if (date == yesterday) {
+            }else if (date == 'yesterday') {
                 let yestarday = new Date();
                 yestarday.setDate(yestarday.getDate() - 1);
                 let setdate = yestarday.toLocaleDateString('sv-SE');
                 api = api_key + '&date=' + setdate;
-            }else if (date == random) {
+            }else if (date == 'random') {
                 const start = new Date('1995-6-16').getTime();
                 const end = new Date().getTime();
                 let randomDate = Math.random() * (end-start)+start;
