@@ -266,14 +266,15 @@
         };
         async function News(){
         try{
-        let honyaku = await getNews();
+        let honyaku = await getNews('today');
         console.log(honyaku);
-        async function displayDictionary(){
-
-        }
         
         }catch(error){
         }}
+
+        async function displayDictionary(){
+
+        }
         News();
         
         </script>
