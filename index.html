@@ -52,7 +52,7 @@
                 font-weight: bold;
                 padding: 20px;
             }
-            .date{
+            /* .date{
                 outline: 3px solid #000000;
                 display: flex;
                 justify-content: center;
@@ -66,7 +66,7 @@
                 font-size: 30px;
                 margin-left: 40px;
                 
-            }
+            } */
             .wait{
                 font-size:30px;
                 font-weight: bold;
@@ -111,7 +111,10 @@
         </div>
         <div class="date">
             <h3>日付の選択</h3>
-            <input type="date" id="date" onchange="getNews()">
+            <!-- <input type="date" id="date" onchange="getNews()"> -->
+            <input type="button" class="button" value="今日のニュース" onclick="getNews(today)">
+            <input type="button" class="button" value="昨日のニュース" onclick="getNews(yesterday)">
+            <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews(random)">
         </div>
         <div class="flex">
         <main id="news1" class = "news">
@@ -126,18 +129,30 @@
         <script>
             const nasaApiKey = '__NASA_API_KEY__';
             const api_key = `https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`;
-            async function getNews() {
+            async function getNews(date) {
             const newswait = document.getElementById('news1');
             newswait.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
             `;
             const newswait2 = document.getElementById('news2');
             newswait2.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
             `;
-            let getdate = document.getElementById('date').value;
-            let api = api_key;
-            if (getdate) {
-                api = api_key + '&date=' + getdate;
+            let getdate = document.getElementById('button');
+            if (date == today) {
+                let setdate = new Date().toLocaleDateString('sv-SE');
+                api = api_key + '&date=' + setdate;
+            }else if (date == yesterday) {
+                let yestarday = new Date();
+                yestarday.setDate(yestarday.getDate() - 1);
+                let setdate = yestarday.toLocaleDateString('sv-SE');
+                api = api_key + '&date=' + setdate;
+            }else if (date == random) {
+                const start = new Date('1995-6-16').getTime();
+                const end = new Date().getTime();
+                let randomDate = Math.random() * (end-start)+start;
+                let setdate = new Date(randomDate).toLocaleDateString('sv-SE');
+                api = api_key + '&date=' + setdate;
             }
+                
             try {
                 const response = await fetch(api,{mode:'cors'});
                 const data = await response.json();
