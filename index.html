@@ -52,8 +52,8 @@
                 font-weight: bold;
                 padding: 20px;
             }
-            /* .date{
-                outline: 3px solid #000000;
+            .date{
+                /* outline: 3px solid #000000; */
                 display: flex;
                 justify-content: center;
                 margin: 20px;
@@ -62,11 +62,18 @@
                 margin: 20px auto;
             }
             #date{
-                padding: 0px 20px;
-                font-size: 30px;
-                margin-left: 40px;
-                
-            } */
+                margin-right:20px;
+            }
+             .button{
+                font-weight: 550;
+                padding: 30px 30px;
+                font-size: 20px;
+                margin-left: 20px;
+                margin-right: 20px;
+                background-color: #ffffff;
+                border: 3px solid #000000;
+                cursor: pointer;
+             }
             .wait{
                 font-size:30px;
                 font-weight: bold;
@@ -107,14 +114,15 @@
     <body>
         <div class="header">
         <h1 class="title">今日の宇宙</h1>
-            <h1 class="top-menu"><a href="javascript:void(0);" class="menu" onclick="News()">ニュース</a><a href="#" class="menu">火星画像</a><a href="https://apod.nasa.gov/apod/astropix.html" class="menu">nasa Astronomy Picture of the Dayへ</a></h1>
+            <h1 class="top-menu"><a href="javascript:void(0);" class="menu" onclick="News()">ニュース</a><a href="#" class="menu">地球画像</a><a href="https://apod.nasa.gov/apod/astropix.html" class="menu">nasa Astronomy Picture of the Dayへ</a></h1>
         </div>
         <div class="date">
-            <h3>日付の選択</h3>
+            <!-- <h3 id="date">日付の選択</h3> -->
             <!-- <input type="date" id="date" onchange="getNews()"> -->
             <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
             <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
             <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
+            <input type="date" class="button" onchange="getNews(date)">
         </div>
         <div class="flex">
         <main id="news1" class = "news">
@@ -150,6 +158,9 @@
                 const end = new Date().getTime();
                 let randomDate = Math.random() * (end-start)+start;
                 let setdate = new Date(randomDate).toLocaleDateString('sv-SE');
+                api = api_key + '&date=' + setdate;
+            }else{
+                let setdate = document.getElementById('date').value;
                 api = api_key + '&date=' + setdate;
             }
                 
