@@ -2,6 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>試験</title>
         <style>
             body {
@@ -122,6 +123,24 @@
                 height: auto;
                 margin-right: 5%;
                 margin-left: 5%;
+            }
+            @media screen and (max-width: 600px){
+                .date{
+                    flex-wrap: wrap;
+                    
+                }
+                .top-menu{
+                    justify-content: center;
+                }
+                .flex{
+                    flex-direction: column;
+                }
+                .news, .news1{
+                    width: 90%;
+                    margin-right: auto;
+                    margin-left: auto;
+                }
+
             }
         </style>
     </head>
