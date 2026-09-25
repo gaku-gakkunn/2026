@@ -382,22 +382,14 @@
                 return translatedText;
             }catch(error){
                 console.error('翻訳エラー発生:', error);
-        return englishtext; // 失敗したときは英語のまま返す保険
+        return englishtext; 
             }
         };
-        async function News(){
-        try{
-        let honyaku = await getNews('today');
-        console.log(honyaku);
-        
-        }catch(error){
-        }}
-
-        async function displayDictionary(){
-
+        const script = document.getElementByTagName('script');
+        const currentScript = document.currentScript;
+        if (script[0] === currentScript){
+            getNews('today')
         }
-        News();
-        
         </script>
     </body>
 </html>
