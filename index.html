@@ -258,7 +258,7 @@
             let getdate = document.getElementById('button');
             if (date == 'today') {
                 let todaydate = new Date();
-                now.setHours(now.getHours() - 14);
+                todaydate.setHours(todaydate.getHours() - 14);
                 let setdate = todaydate.toLocaleDateString('sv-SE');
                 api = api_key + '&date=' + setdate;
             }else if (date == 'yesterday') {
