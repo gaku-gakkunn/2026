@@ -251,9 +251,11 @@
             async function getNews(date) {
             const newswait = document.getElementById('news1');
             newswait.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
+            <div class="reload"></div>
             `;
             const newswait2 = document.getElementById('news2');
             newswait2.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
+            <div class="reload"></div>
             `;
             let getdate = document.getElementById('button');
             if (date == 'today') {
