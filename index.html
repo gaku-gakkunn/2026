@@ -244,7 +244,6 @@
             <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
             <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
             <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
-            <input type="date" class="button" onchange="getNews(date)">
         </div>
         <div class="flex">
         <main id="news1" class = "news">
@@ -259,8 +258,9 @@
 
         
         <script>
-            const nasaApiKey = '__NASA_API_KEY__';
-            const api_key = `https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`;
+            // const nasaApiKey = '__NASA_API_KEY__';
+            // const api_key = `https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`;
+            const newUrl = 'https://science.nasa.gov/wp-json/wp/v2/apod-basic';
             async function getNews(date) {
             const newswait = document.getElementById('news1');
             newswait.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
@@ -270,31 +270,24 @@
             newswait2.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
             <div class="reload"></div>
             `;
+            let newsDate = '';
             let getdate = document.getElementById('button');
             if (date == 'today') {
-                let todaydate = new Date();
-                todaydate.setHours(todaydate.getHours() - 14);
-                let setdate = todaydate.toLocaleDateString('sv-SE');
-                api = api_key + '&date=' + setdate;
+                newsDate = 0;
+                api = newUrl
             }else if (date == 'yesterday') {
-                let yestarday = new Date();
-                yestarday.setDate(yestarday.getDate() - 1);
-                let setdate = yestarday.toLocaleDateString('sv-SE');
-                api = api_key + '&date=' + setdate;
+                newsDate = 1;
+                api = newUrl
             }else if (date == 'random') {
-                const start = new Date('1995-6-16').getTime();
-                const end = new Date().getTime();
-                let randomDate = Math.random() * (end-start)+start;
-                let setdate = new Date(randomDate).toLocaleDateString('sv-SE');
-                api = api_key + '&date=' + setdate;
-            }else{
-                let setdate = document.getElementById('date').value;
-                api = api_key + '&date=' + setdate;
+                newsDate = Math.floor(Math.random() * 25);
+                api = newUrl
             }
                 
             try {
                 const response = await fetch(api,{mode:'cors'});
-                const data = await response.json();
+                const Data = await response.json();
+                console.log(newsDate);
+                const data = Data[newsDate];
                 console.log(data);
                 const day = data.date;
                 // console.log(day);
@@ -303,29 +296,60 @@
                 const datanews = data.explanation;
                 const datatitle = data.title;
                 let imageGetUrl = '';
-                if ("copyright" in data){
-                let cleanWord = data.title.replace(/[^a-zA-Z0-9]/g, " ");
-                let titleSplit = cleanWord.trim().split(/ +/);
-                const stopWords = [
-                "a", "above", "across", "against", "along", "amazing", "amazingly", "an", "and", "around", "at", "awesome",
-                "beautiful", "beautifully", "behind", "beside", "between", "beyond", "bright", "brightly", "but", "by",
-                "captured", "capturing", "cosmic", "cosmical", "dark", "deep", "deeply", "distant", "faint", "faintly",
-            "featured", "featuring", "flying", "for", "from", "grand", "great", "greatly", "heading", "high", "highly",
-            "image", "images", "in", "inside", "into", "look", "looked", "looking", "looks", "merged", "merging",
-            "mosaic", "mosaics", "mostly", "near", "nearby", "next", "night", "nightsky", "of", "on", "or", "orbited",
-            "orbiting", "outside", "over", "panorama", "panoramas", "partially", "photo", "photograph", "photographs", "photos",
-            "picture", "pictures", "portrait", "portraits", "rising", "scene", "scenes", "setting", "shot", "shots",
-            "show", "showed", "showing", "shows", "sky", "spectacular", "spectacularly", "spied", "the", "through", "to",
-            "totally", "tracked", "tracking", "under", "view", "views", "with", "within", "without", "ngc"
-            ];
-                let wordList = titleSplit.filter(word => !stopWords.includes(word.toLowerCase()));
-                let word1 = wordList[0] || '';
-                let word2 = wordList[1] || '';
-                let word = word1 + ' ' + word2;
-                imageGetUrl= 'https://images-api.nasa.gov/search?q='+ word +'&media_type=image' ;
-            }
-                DisplayNews(data,2,datatitle,datanews,imageGetUrl);
-                DisplayNews(data,1,JSTitle,JSText,imageGetUrl);
+                let imageUrl = null;
+                if (data.copyright !== 'NASA'){
+                    let cleanWord = data.title.replace(/[^a-zA-Z0-9]/g, " ");
+                    let titleSplit = cleanWord.trim().split(/ +/);
+                    const stopWords = [
+                    "a", "above", "across", "against", "along", "amazing", "amazingly", "an", "and", "around", "at", "awesome",
+                    "beautiful", "beautifully", "behind", "beside", "between", "beyond", "bright", "brightly", "but", "by",
+                    "captured", "capturing", "cosmic", "cosmical", "dark", "deep", "deeply", "distant", "faint", "faintly",
+                    "featured", "featuring", "flying", "for", "from", "grand", "great", "greatly", "heading", "high", "highly",
+                    "image", "images", "in", "inside", "into", "look", "looked", "looking", "looks", "merged", "merging",
+                    "mosaic", "mosaics", "mostly", "near", "nearby", "next", "night", "nightsky", "of", "on", "or", "orbited",
+                    "orbiting", "outside", "over", "panorama", "panoramas", "partially", "photo", "photograph", "photographs", "photos",
+                    "picture", "pictures", "portrait", "portraits", "rising", "scene", "scenes", "setting", "shot", "shots",
+                    "show", "showed", "showing", "shows", "sky", "spectacular", "spectacularly", "spied", "the", "through", "to",
+                    "totally", "tracked", "tracking", "under", "view", "views", "with", "within", "without"
+                    ];
+                    let wordList = titleSplit.filter(word => !stopWords.includes(word.toLowerCase()));
+                    let searchWords = [];
+                    for (let i = 0; i < wordList.length; i++) {
+                        if (wordList[i].toUpperCase() == 'NGC' && /^\d+$/.test(wordList[i + 1])) {
+                            searchWords.push(`${wordList[i]} ${wordList[i + 1]}`);
+                            i++;
+                        }else{
+                            searchWords.push(wordList[i]);
+                        }
+                    }
+                    const searches = [];
+                    for (const count of [5,4,3,2,1]){
+                        if (searchWords.length >= count){
+                            const words = searchWords.slice(0,count).join(' ');
+                            if (!searches.includes(words)){
+                                searches.push(words);
+                            }
+                        }
+                    }
+                    for (const word of searches){
+                        imageGetUrl= 'https://images-api.nasa.gov/search?q='+ encodeURIComponent(word) +'&media_type=image' ;
+                        const response = await fetch(imageGetUrl);
+                        if (!response.ok){
+                            continue;
+                        }
+                        const searchData = await response.json();
+                        imageUrl = searchData.collection?.items?.[0]?.links?.[0]?.href;
+                        if (imageUrl){
+                            break;
+                        }
+
+                    }
+
+                }else{
+                    imageUrl= data.hdurl;
+                }
+                DisplayNews(data,2,datatitle,datanews,imageUrl);
+                DisplayNews(data,1,JSTitle,JSText,imageUrl);
                 return JSText;
             } catch (error){
                 const reload = confirm('通信に失敗しました。リロードしますか？');
@@ -336,24 +360,21 @@
         }
         async function DisplayNews(data,kaisu,title,explanation,url){
             const newsbox = document.getElementById('news'+kaisu);
-            if (!("copyright" in data)) {
+            if (data.copyright == 'NASA') {
             newsbox.innerHTML=`
             <h2>${title}</h2>
             ${
             data.media_type === 'image' 
-            ? `<img src="${data.url}" alt="${data.title}">` 
+            ? `<img src="${data.hdurl}" alt="${data.title}">` 
             : data.media_type === 'video' 
-            ? `<iframe src="${data.url}" frameborder="0" allowfullscreen class="video-player"></iframe>` 
+            ? `<iframe src="${data.hdurl}" frameborder="0" allowfullscreen class="video-player"></iframe>` 
             : '<p>未対応のメディア形式です。</p>'
             }
             <p>${explanation}</p>
             `;
+
             } else {
-            fetch(url)
-            .then(response => response.json())
-            .then(searchData => {
-                let imageAll = searchData.collection.items[0];
-                if (!imageAll) {
+                if (!url) {
                     console.log('画像が見つかりませんでした。');
                     newsbox.innerHTML=`
                     <h2>${title}</h2>
@@ -362,25 +383,14 @@
                     `; 
                     console.log('著作権あり')
                     return;
-                }
-                let imageUrl = imageAll.links[0].href;
+                }else{
                 newsbox.innerHTML=`
                 <h2>${title}</h2>
-                <img src="${imageUrl}" alt="イメージ画像">
+                <img src="${url}" alt="イメージ画像">
                 <p>▲image</p>
                 <p>${explanation}</p>
                 `; 
             }
-            )
-            .catch(error => {
-                console.log('画像が見つかりませんでした。');
-                newsbox.innerHTML=`
-                <h2>${title}</h2>
-                <p>画像が見つかりませんでした</p>
-                <p>${explanation}</p>
-                `; 
-                console.log('著作権あり')
-            });
             }
         }
         async function google(englishtext){
@@ -405,9 +415,8 @@
         };
         const script = document.getElementsByTagName('script');
         const currentScript = document.currentScript;
-        if (script[0] === currentScript){
             getNews('today')
-        }
+
         </script>
     </body>
 </html>
