@@ -133,6 +133,14 @@
                 margin-right: 5%;
                 margin-left: 5%;
             }
+            .earthBox{
+                outline: 3px solid #000000;
+                width: 95%;
+                margin-top: 20px;
+                margin-right: auto;
+                margin-left: auto;
+                padding: 20px;
+            }
             @media screen and (max-width: 600px){
 
                     body{
@@ -236,8 +244,9 @@
     <body>
         <div class="header">
         <h1 class="title">Ascope</h1>
-            <div class="top-menu"><a id="news" href="javascript:void(0);" class="menu" onclick="News()">ニュース</a><a href="#" class="menu">地球画像</a></div>
+            <div class="top-menu"><a id="news" href="javascript:void(0);" class="menu" onclick="News()">ニュース</a><a href="javascript:void(0);" class="menu" onclick="earthImage()">地球画像</a></div>
         </div>
+        <div id="News">
         <div class="date">
             <!-- <h3 id="date">日付の選択</h3> -->
             <!-- <input type="date" id="date" onchange="getNews()"> -->
@@ -255,13 +264,33 @@
             <div class="reload"></div>
         </main>
         </div>
+        </div>
 
         
         <script>
             // const nasaApiKey = '__NASA_API_KEY__';
             // const api_key = `https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`;
             const newUrl = 'https://science.nasa.gov/wp-json/wp/v2/apod-basic';
+            const earthUrl = 'https://epic.gsfc.nasa.gov/api/natural';
             async function getNews(date) {
+            const News = document.getElementById('News');
+            News.innerHTML = `<div class="date">
+            <!-- <h3 id="date">日付の選択</h3> -->
+            <!-- <input type="date" id="date" onchange="getNews()"> -->
+            <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
+            <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
+            <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
+        </div>
+        <div class="flex">
+        <main id="news1" class = "news">
+            <p class="wait">お待ちください...間も無く表示されます</p>
+            <div class="reload"></div>
+        </main>
+        <main class = 'news1' id="news2">
+            <p class="wait">お待ちください...間も無く表示されます</p>
+            <div class="reload"></div>
+        </main>
+        </div>`
             const newswait = document.getElementById('news1');
             newswait.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
             <div class="reload"></div>
@@ -413,6 +442,34 @@
         return englishtext; 
             }
         };
+        async function earthImage() {
+            const News = document.getElementById('News');
+            News.innerHTML = `
+                <main class="earthBox">
+                    <p class="wait">お待ちください...間も無く表示されます</p>
+                    <div class="reload"></div>
+                </main>`
+            const response = await fetch(earthUrl);
+            if (!response.ok) {
+                News.innerHTML = `
+                    <p class="wait">画像の入手に失敗しました。</p>`
+                    retrun()
+            } else {
+                const data = await response.json();
+                console.log(data)
+                const imageUrls = []
+                for (let i = 0; i < 10 && i < data.length; i++) {
+                    const image = data[i];
+                    console.log(image)
+                    const year = image.identifier.slice(0,4);
+                    const month = image.identifier.slice(4,6);
+                    const day = image.identifier.slice(6,8);
+                    const imageUrl = `https://epic.gsfc.nasa.gov/archive/natural/${year}/${month}/${day}/`
+                    imageUrls.push(imageUrl);
+                }
+                console.log(imageUrls)
+            }
+        }
         const script = document.getElementsByTagName('script');
         const currentScript = document.currentScript;
             getNews('today')
