@@ -274,7 +274,7 @@
             </div>
         </div>
         <div class="sourseP">
-            <p class="sourse">データの出典：NASA (APOD / DSCOVR EPIC)</p>
+            <p class="sourse">データの出典：NASA (APOD / DSCOVR EPIC)(DeepL翻訳にて日本語訳)</p>
         </div>
         
         <script>
@@ -432,26 +432,34 @@
                     }
                 }
             }
-            async function google(englishtext){
-                const googleurl = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=' + encodeURIComponent(englishtext);
-                try{
-                    const response = await fetch(`${googleurl}`);
-                    if (!response.ok){
-                        throw new Error(`翻訳エラー status: ${response.status}`);
+            async function google(englishText){
+                const url = 'https://deepl-ploxy.gakutofukumoto2013.workers.dev';
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            text: englishText
+                        })
+                    });
+                    const data = await response.json();
+                    console.log("Worker response:", data);
+                    if (!response.ok) {
+                        throw new Error(data.error || `HTTP ${response.status}`);
                     }
-                    const data1 = await response.json();
-                    let translatedText = "";
-                    data1[0].forEach(element => {
-                    if (element && element[0]) {
-                        translatedText += element[0];
+                    if (!data.translated_text) {
+                        throw new Error("translated_text がありません");
                     }
-                });
-                return translatedText;
-                }catch(error){
-                    console.error('翻訳エラー発生:', error);
-                    return englishtext; 
+                    return data.translated_text;
+                } catch (error) {
+                    console.error("翻訳エラー:", error);
+                    return englishText;
                 }
             };
+
+            
             async function earthImage() {
                 const News = document.getElementById('News');
                 News.innerHTML = `
