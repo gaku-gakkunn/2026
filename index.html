@@ -17,8 +17,6 @@
                 padding: 10px;
                 font-weight: light;
                 align-items: center;
-                margin-left: 40px;
-                margin-right:50px;
             }
             h2 {
                 color: #1f1f1f;
@@ -33,15 +31,16 @@
             p{
                 font-size:25px;
             }
-            .header{
+            /* .header{
                 outline: 3px solid #000000;
                 border-radius: 5px;
-                width: 98%;
+                width: 95%;
                 margin-top: 20px;
                 margin-right: auto;
                 margin-left: auto;
                 display: flex;
                 justify-content: space-between;
+                padding: 15px 25px;
             }
             .top-menu{
                 padding: 10px;
@@ -52,6 +51,11 @@
             #news{
                 margin-right: 50px;
             }
+            .subTitle {
+                font-weight: bold;
+                font-size: 30px;
+                margin-top: 8px;
+            }
             .menu{
                 display: flex;
                 color: #1f1f1f;
@@ -61,6 +65,37 @@
                 font-weight: bold;
                 text-decoration: none;
                 align-items: center;
+            } */
+            .header{
+                display: flex;
+                width: 98%;
+                outline: 3px solid #000000;
+                margin-right: auto;
+                margin-left: auto;
+                border-radius: 5px;
+                align-items: center;
+                justify-content: center;
+            }
+            .title {
+                font-size: 70px;
+                display: block;
+            }
+            .subTitle {
+                font-size: 40px;
+            }
+            .menu {
+                text-decoration: none;
+                font-size: 40px;
+                font-weight: bold;
+                color: #000000;
+                padding: 10px;
+            }
+            .top-menu {
+                display: flex;
+                flex-wrap: wrap;
+                width: 40%;
+                justify-content: center;
+                row-gap: 20px;
             }
             .date{
                 /* outline: 3px solid #000000; */
@@ -151,6 +186,13 @@
                 margin-top: 30px;
                 margin-bottom: 30px;
             }
+            .sourseP {
+                display: flex;
+                justify-content: center;
+            }
+            .sourse {
+                font-weight: bold;
+            }
             @media screen and (max-width: 600px){
 
                     body{
@@ -189,24 +231,17 @@
                         font-weight: light;
                         margin-right:0px;
                     }
-                    .top-menu{
-                        margin-top: 0px;
-                        display:flex;
-                        flex-wrap: wrap;
-                        background-color: #ffffff;
+                    .subTitle {
+                        font-size: 20px;
+                    }
+                    .top-menu {
+                        row-gap: 10px;
+                    }
+                    .menu {
+                        font-size: 20px;
                     }
                     #news{
                         margin-right: 0px;
-                    }
-                    .menu{
-                        background-color: #ffffff;
-                        text-decoration: none;
-                        display: inline-block;
-                        color: #000000;
-                        font-weight: bold;
-                        font-size: 20px;
-                        padding: 20px;
-                        margin-left: 0px;
                     }
                     .date{
                         /* outline: 3px solid #000000; */
@@ -253,7 +288,10 @@
     </head>
     <body>
         <div class="header">
-        <h1 class="title">Ascope</h1>
+        <div class="titleAndComsept">
+        <h1 class="title">毎日宇宙<br><span class="subTitle">知ろう、今日の宇宙。</span></h1>
+        <!-- <p class="comsept">今日の宇宙、知ろう。</p> -->
+        </div>
             <div class="top-menu"><a id="news" href="javascript:void(0);" class="menu" onclick="getNews('today')">今日の宇宙写真</a><a href="javascript:void(0);" class="menu" onclick="earthImage()">今日の地球画像</a></div>
         </div>
         <div id="News">
@@ -275,7 +313,9 @@
         </main>
         </div>
         </div>
-
+        <div class="sourseP">
+        <p class="sourse">データの出典：NASA (APOD / DSCOVR EPIC)</p>
+        </div>
         
         <script>
             // const nasaApiKey = '__NASA_API_KEY__';
