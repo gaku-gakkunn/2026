@@ -32,41 +32,6 @@
             p{
                 font-size:25px;
             }
-            /* .header{
-                outline: 3px solid #000000;
-                border-radius: 5px;
-                width: 95%;
-                margin-top: 20px;
-                margin-right: auto;
-                margin-left: auto;
-                display: flex;
-                justify-content: space-between;
-                padding: 15px 25px;
-            }
-            .top-menu{
-                padding: 10px;
-                display:flex;
-                flex-wrap: wrap;
-                background-color: #ffffff;
-            }
-            #news{
-                margin-right: 50px;
-            }
-            .subTitle {
-                font-weight: bold;
-                font-size: 30px;
-                margin-top: 8px;
-            }
-            .menu{
-                display: flex;
-                color: #1f1f1f;
-                background-color: #ffffff;
-                font-size:50px;
-                padding: 20px;
-                font-weight: bold;
-                text-decoration: none;
-                align-items: center;
-            } */
             .header{
                 display: flex;
                 width: 98%;
@@ -99,7 +64,6 @@
                 row-gap: 10px;
             }
             .date{
-                /* outline: 3px solid #000000; */
                 display: flex;
                 justify-content: center;
                 margin: 20px;
@@ -173,7 +137,6 @@
                 margin-left: 5%;
             }
             .earthBox{
-                /* outline: 3px solid #000000; */
                 width: 95%;
                 margin-top: 20px;
                 margin-right: auto;
@@ -245,7 +208,6 @@
                         margin-right: 0px;
                     }
                     .date{
-                        /* outline: 3px solid #000000; */
                         display: flex;
                         flex-wrap: wrap;
                         justify-content: center;
@@ -289,33 +251,30 @@
     </head>
     <body>
         <div class="header">
-        <div class="titleAndComsept">
-        <h1 class="title">毎日宇宙<br><span class="subTitle">知ろう、今日の宇宙。</span></h1>
-        <!-- <p class="comsept">今日の宇宙、知ろう。</p> -->
-        </div>
+            <div class="titleAndComsept">
+                <h1 class="title">毎日宇宙<br><span class="subTitle">知ろう、今日の宇宙。</span></h1>
+            </div>
             <div class="top-menu"><a id="news" href="javascript:void(0);" class="menu" onclick="getNews('today')">今日の宇宙写真</a><a href="javascript:void(0);" class="menu" onclick="earthImage()">今日の地球画像</a></div>
         </div>
         <div id="News">
-        <div class="date">
-            <!-- <h3 id="date">日付の選択</h3> -->
-            <!-- <input type="date" id="date" onchange="getNews()"> -->
-            <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
-            <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
-            <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
-        </div>
-        <div class="flex">
-        <main id="news1" class = "news">
-            <p class="wait">お待ちください...間も無く表示されます</p>
-            <div class="reload"></div>
-        </main>
-        <main class = 'news1' id="news2">
-            <p class="wait">お待ちください...間も無く表示されます</p>
-            <div class="reload"></div>
-        </main>
-        </div>
+            <div class="date">
+                <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
+                <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
+                <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
+            </div>
+            <div class="flex">
+                <main id="news1" class = "news">
+                    <p class="wait">お待ちください...間も無く表示されます</p>
+                    <div class="reload"></div>
+                </main>
+                <main class = 'news1' id="news2">
+                    <p class="wait">お待ちください...間も無く表示されます</p>
+                    <div class="reload"></div>
+                </main>
+            </div>
         </div>
         <div class="sourseP">
-        <p class="sourse">データの出典：NASA (APOD / DSCOVR EPIC)</p>
+            <p class="sourse">データの出典：NASA (APOD / DSCOVR EPIC)</p>
         </div>
         
         <script>
@@ -324,212 +283,212 @@
             const newUrl = 'https://science.nasa.gov/wp-json/wp/v2/apod-basic';
             const earthUrl = 'https://epic.gsfc.nasa.gov/api/natural';
             async function getNews(date) {
-            const News = document.getElementById('News');
-            News.innerHTML = `<div class="date">
-            <!-- <h3 id="date">日付の選択</h3> -->
-            <!-- <input type="date" id="date" onchange="getNews()"> -->
-            <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
-            <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
-            <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
-        </div>
-        <div class="flex">
-        <main id="news1" class = "news">
-            <p class="wait">お待ちください...間も無く表示されます</p>
-            <div class="reload"></div>
-        </main>
-        <main class = 'news1' id="news2">
-            <p class="wait">お待ちください...間も無く表示されます</p>
-            <div class="reload"></div>
-        </main>
-        </div>`
-            const newswait = document.getElementById('news1');
-            newswait.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
-            <div class="reload"></div>
-            `;
-            const newswait2 = document.getElementById('news2');
-            newswait2.innerHTML=`<p class='wait'>お待ちください...間も無く表示されます</p>
-            <div class="reload"></div>
-            `;
-            let newsDate = '';
-            let getdate = document.getElementById('button');
-            if (date == 'today') {
-                newsDate = 0;
-                api = newUrl
-            }else if (date == 'yesterday') {
-                newsDate = 1;
-                api = newUrl
-            }else if (date == 'random') {
-                newsDate = Math.floor(Math.random() * 25);
-                api = newUrl
-            }
+                const News = document.getElementById('News');
+                    News.innerHTML = `
+                                    <div class="date">
+                                        <!-- <h3 id="date">日付の選択</h3> -->
+                                        <!-- <input type="date" id="date" onchange="getNews()"> -->
+                                        <input type="button" class="button" value="今日のニュース" onclick="getNews('today')">
+                                        <input type="button" class="button" value="昨日のニュース" onclick="getNews('yesterday')">
+                                        <input type="button" class="button" value="ランダムな日付のニュース" onclick="getNews('random')">
+                                    </div>
+                                    <div class="flex">
+                                        <main id="news1" class = "news">
+                                            <p class="wait">お待ちください...間も無く表示されます</p>
+                                            <div class="reload"></div>
+                                        </main>
+                                        <main class = 'news1' id="news2">
+                                            <p class="wait">お待ちください...間も無く表示されます</p>
+                                            <div class="reload"></div>
+                                        </main>
+                                    </div>`
+                const newswait = document.getElementById('news1');
+                newswait.innerHTML=`
+                                    <p class='wait'>お待ちください...間も無く表示されます</p>
+                                    <div class="reload"></div>
+                                    `;
+                const newswait2 = document.getElementById('news2');
+                newswait2.innerHTML=`
+                                    <p class='wait'>お待ちください...間も無く表示されます</p>
+                                    <div class="reload"></div>
+                                    `;
+                let newsDate = '';
+                let getdate = document.getElementById('button');
+                if (date == 'today') {
+                    newsDate = 0;
+                    api = newUrl
+                }else if (date == 'yesterday') {
+                    newsDate = 1;
+                    api = newUrl
+                }else if (date == 'random') {
+                    newsDate = Math.floor(Math.random() * 25);
+                    api = newUrl
+                }
                 
-            try {
-                const response = await fetch(api,{mode:'cors'});
-                const Data = await response.json();
-                console.log(newsDate);
-                const data = Data[newsDate];
-                console.log(data);
-                const day = data.date;
-                // console.log(day);
-                const JSText = await google(data.explanation);
-                const JSTitle = await google(data.title);
-                const datanews = data.explanation;
-                const datatitle = data.title;
-                let imageGetUrl = '';
-                let imageUrl = null;
-                if (data.copyright !== 'NASA'){
-                    let cleanWord = data.title.replace(/[^a-zA-Z0-9]/g, " ");
-                    let titleSplit = cleanWord.trim().split(/ +/);
-                    const stopWords = [
-                    "a", "above", "across", "against", "along", "amazing", "amazingly", "an", "and", "around", "at", "awesome",
-                    "beautiful", "beautifully", "behind", "beside", "between", "beyond", "bright", "brightly", "but", "by",
-                    "captured", "capturing", "cosmic", "cosmical", "dark", "deep", "deeply", "distant", "faint", "faintly",
-                    "featured", "featuring", "flying", "for", "from", "grand", "great", "greatly", "heading", "high", "highly",
-                    "image", "images", "in", "inside", "into", "look", "looked", "looking", "looks", "merged", "merging",
-                    "mosaic", "mosaics", "mostly", "near", "nearby", "next", "night", "nightsky", "of", "on", "or", "orbited",
-                    "orbiting", "outside", "over", "panorama", "panoramas", "partially", "photo", "photograph", "photographs", "photos",
-                    "picture", "pictures", "portrait", "portraits", "rising", "scene", "scenes", "setting", "shot", "shots",
-                    "show", "showed", "showing", "shows", "sky", "spectacular", "spectacularly", "spied", "the", "through", "to",
-                    "totally", "tracked", "tracking", "under", "view", "views", "with", "within", "without"
-                    ];
-                    let wordList = titleSplit.filter(word => !stopWords.includes(word.toLowerCase()));
-                    let searchWords = [];
-                    for (let i = 0; i < wordList.length; i++) {
-                        if (wordList[i].toUpperCase() == 'NGC' && /^\d+$/.test(wordList[i + 1])) {
-                            searchWords.push(`${wordList[i]} ${wordList[i + 1]}`);
-                            i++;
-                        }else{
-                            searchWords.push(wordList[i]);
+                try {
+                    const response = await fetch(api,{mode:'cors'});
+                    const Data = await response.json();
+                    const data = Data[newsDate];
+                    console.log(data);
+                    const day = data.date;
+                    const JSText = await google(data.explanation);
+                    const JSTitle = await google(data.title);
+                    const datanews = data.explanation;
+                    const datatitle = data.title;
+                    let imageGetUrl = '';
+                    let imageUrl = null;
+                    if (data.copyright !== 'NASA'){
+                        let cleanWord = data.title.replace(/[^a-zA-Z0-9]/g, " ");
+                        let titleSplit = cleanWord.trim().split(/ +/);
+                        const stopWords = [
+                            "a", "above", "across", "against", "along", "amazing", "amazingly", "an", "and", "around", "at", "awesome",
+                            "beautiful", "beautifully", "behind", "beside", "between", "beyond", "bright", "brightly", "but", "by",
+                            "captured", "capturing", "cosmic", "cosmical", "dark", "deep", "deeply", "distant", "faint", "faintly",
+                            "featured", "featuring", "flying", "for", "from", "grand", "great", "greatly", "heading", "high", "highly",
+                            "image", "images", "in", "inside", "into", "look", "looked", "looking", "looks", "merged", "merging",
+                            "mosaic", "mosaics", "mostly", "near", "nearby", "next", "night", "nightsky", "of", "on", "or", "orbited",
+                            "orbiting", "outside", "over", "panorama", "panoramas", "partially", "photo", "photograph", "photographs", "photos",
+                            "picture", "pictures", "portrait", "portraits", "rising", "scene", "scenes", "setting", "shot", "shots",
+                            "show", "showed", "showing", "shows", "sky", "spectacular", "spectacularly", "spied", "the", "through", "to",
+                            "totally", "tracked", "tracking", "under", "view", "views", "with", "within", "without"
+                        ];
+                        let wordList = titleSplit.filter(word => !stopWords.includes(word.toLowerCase()));
+                        let searchWords = [];
+                        for (let i = 0; i < wordList.length; i++) {
+                            if (wordList[i].toUpperCase() == 'NGC' && /^\d+$/.test(wordList[i + 1])) {
+                                searchWords.push(`${wordList[i]} ${wordList[i + 1]}`);
+                                i++;
+                            }else{
+                                searchWords.push(wordList[i]);
+                                }
                         }
-                    }
-                    const searches = [];
-                    for (const count of [5,4,3,2,1]){
-                        if (searchWords.length >= count){
-                            const words = searchWords.slice(0,count).join(' ');
-                            if (!searches.includes(words)){
-                                searches.push(words);
+                        const searches = [];
+                        for (const count of [5,4,3,2,1]){
+                            if (searchWords.length >= count){
+                                const words = searchWords.slice(0,count).join(' ');
+                                if (!searches.includes(words)){
+                                    searches.push(words);
+                                }
                             }
                         }
-                    }
-                    for (const word of searches){
-                        imageGetUrl= 'https://images-api.nasa.gov/search?q='+ encodeURIComponent(word) +'&media_type=image' ;
-                        const response = await fetch(imageGetUrl);
-                        if (!response.ok){
-                            continue;
-                        }
-                        const searchData = await response.json();
-                        imageUrl = searchData.collection?.items?.[0]?.links?.[0]?.href;
-                        if (imageUrl){
-                            break;
-                        }
+                        for (const word of searches){
+                            imageGetUrl= 'https://images-api.nasa.gov/search?q='+ encodeURIComponent(word) +'&media_type=image' ;
+                            const response = await fetch(imageGetUrl);
+                            if (!response.ok){
+                                continue;
+                            }
+                            const searchData = await response.json();
+                            imageUrl = searchData.collection?.items?.[0]?.links?.[0]?.href;
+                            if (imageUrl){
+                                break;
+                            }
 
-                    }
-
-                }else{
+                        }
+                    }else{
                     imageUrl= data.hdurl;
-                }
-                DisplayNews(data,2,datatitle,datanews,imageUrl);
-                DisplayNews(data,1,JSTitle,JSText,imageUrl);
-                return JSText;
-            } catch (error){
-                const reload = confirm('通信に失敗しました。リロードしますか？');
-                if (reload){
-                    location.reload();
-                }
-            }
-        }
-        async function DisplayNews(data,kaisu,title,explanation,url){
-            const newsbox = document.getElementById('news'+kaisu);
-            if (data.copyright == 'NASA') {
-            newsbox.innerHTML=`
-            <h2>${title}</h2>
-            ${
-            data.media_type === 'image' 
-            ? `<img src="${data.hdurl}" alt="${data.title}">` 
-            : data.media_type === 'video' 
-            ? `<iframe src="${data.hdurl}" frameborder="0" allowfullscreen class="video-player"></iframe>` 
-            : '<p>未対応のメディア形式です。</p>'
-            }
-            <p>${explanation}</p>
-            `;
-
-            } else {
-                if (!url) {
-                    console.log('画像が見つかりませんでした。');
+                    }
+                    DisplayNews(data,2,datatitle,datanews,imageUrl);
+                    DisplayNews(data,1,JSTitle,JSText,imageUrl);
+                    return JSText;
+                    } catch (error){
+                        const reload = confirm('通信に失敗しました。リロードしますか？');
+                        if (reload){
+                            location.reload();
+                        }
+                    }
+                    }
+            async function DisplayNews(data,kaisu,title,explanation,url){
+                const newsbox = document.getElementById('news'+kaisu);
+                if (data.copyright == 'NASA') {
                     newsbox.innerHTML=`
-                    <h2>${title}</h2>
-                    <p>画像が見つかりませんでした</p>
-                    <p>${explanation}</p>
-                    `; 
-                    console.log('著作権あり')
-                    return;
-                }else{
-                newsbox.innerHTML=`
-                <h2>${title}</h2>
-                <img src="${url}" alt="イメージ画像">
-                <p>▲image</p>
-                <p>${explanation}</p>
-                `; 
-            }
-            }
-        }
-        async function google(englishtext){
-            const googleurl = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=' + encodeURIComponent(englishtext);
-            try{
-                const response = await fetch(`${googleurl}`);
-                if (!response.ok){
-                    throw new Error(`翻訳エラー status: ${response.status}`);
-                }
-                const data1 = await response.json();
-                let translatedText = "";
-                data1[0].forEach(element => {
-            if (element && element[0]) {
-                translatedText += element[0];
-            }
-        });
-                return translatedText;
-            }catch(error){
-                console.error('翻訳エラー発生:', error);
-        return englishtext; 
-            }
-        };
-        async function earthImage() {
-            const News = document.getElementById('News');
-            News.innerHTML = `
-                <main class="earthBox">
-                    <p class="wait">お待ちください...間も無く表示されます</p>
-                    <div class="reload"></div>
-                </main>`
-            const response = await fetch(earthUrl);
-            if (!response.ok) {
-                News.innerHTML = `
-                    <p class="wait">画像の入手に失敗しました。</p>`
-                    retrun()
-            } else {
-                const data = await response.json();
-                console.log(data)
-                const imageUrls = []
-                for (let i = 0; i < 10 && i < data.length; i++) {
-                    const image = data[i];
-                    const year = image.identifier.slice(0,4);
-                    const month = image.identifier.slice(4,6);
-                    const day = image.identifier.slice(6,8);
-                    const imageUrl = `https://epic.gsfc.nasa.gov/archive/natural/${year}/${month}/${day}/jpg/${image.image}.jpg`;
-                    imageUrls.push(imageUrl);
-                }
-                console.log(imageUrls);
-                News.innerHTML = `<p class="earthTitle">地球画像</p>`;      
-                for (let i = 0; i < imageUrls.length; i++) {
-                    News.innerHTML += `
-                        <img src="${imageUrls[i]}" alt="地球の画像">
-                    `;
-                }
-            }
-        }
-        const script = document.getElementsByTagName('script');
-        const currentScript = document.currentScript;
-            getNews('today')
+                                        <h2>${title}</h2>
+                                        ${
+                                        data.media_type === 'image' 
+                                        ? `<img src="${data.hdurl}" alt="${data.title}">` 
+                                        : data.media_type === 'video' 
+                                        ? `<iframe src="${data.hdurl}" frameborder="0" allowfullscreen class="video-player"></iframe>` 
+                                        : '<p>未対応のメディア形式です。</p>'
+                                        }
+                                        <p>${explanation}</p>
+                                        `;
 
+                } else {
+                    if (!url) {
+                        console.log('画像が見つかりませんでした。');
+                        newsbox.innerHTML=`
+                                            <h2>${title}</h2>
+                                            <p>画像が見つかりませんでした</p>
+                                            <p>${explanation}</p>
+                                            `; 
+                        console.log('著作権あり')
+                        return;
+                    }else{
+                        newsbox.innerHTML=`
+                                            <h2>${title}</h2>
+                                            <img src="${url}" alt="イメージ画像">
+                                            <p>▲image</p>
+                                            <p>${explanation}</p>
+                                            `; 
+                    }
+                }
+            }
+            async function google(englishtext){
+                const googleurl = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=' + encodeURIComponent(englishtext);
+                try{
+                    const response = await fetch(`${googleurl}`);
+                    if (!response.ok){
+                        throw new Error(`翻訳エラー status: ${response.status}`);
+                    }
+                    const data1 = await response.json();
+                    let translatedText = "";
+                    data1[0].forEach(element => {
+                    if (element && element[0]) {
+                        translatedText += element[0];
+                    }
+                });
+                return translatedText;
+                }catch(error){
+                    console.error('翻訳エラー発生:', error);
+                    return englishtext; 
+                }
+            };
+            async function earthImage() {
+                const News = document.getElementById('News');
+                News.innerHTML = `
+                                    <main class="earthBox">
+                                        <p class="wait">お待ちください...間も無く表示されます</p>
+                                        <div class="reload"></div>
+                                    </main>
+                                `
+                const response = await fetch(earthUrl);
+                if (!response.ok) {
+                    News.innerHTML = `
+                                        <p class="wait">画像の入手に失敗しました。</p>`
+                    retrun()
+                } else {
+                    const data = await response.json();
+                    console.log(data)
+                    const imageUrls = []
+                    for (let i = 0; i < 10 && i < data.length; i++) {
+                        const image = data[i];
+                        const year = image.identifier.slice(0,4);
+                        const month = image.identifier.slice(4,6);
+                        const day = image.identifier.slice(6,8);
+                        const imageUrl = `https://epic.gsfc.nasa.gov/archive/natural/${year}/${month}/${day}/jpg/${image.image}.jpg`;
+                        imageUrls.push(imageUrl);
+                    }
+                    console.log(imageUrls);
+                    News.innerHTML = `<p class="earthTitle">地球画像</p>`;      
+                    for (let i = 0; i < imageUrls.length; i++) {
+                        News.innerHTML += `
+                                            <img src="${imageUrls[i]}" alt="地球の画像">
+                                            `;
+                    }
+                }
+            }
+            const script = document.getElementsByTagName('script');
+            const currentScript = document.currentScript;
+            getNews('today')
         </script>
     </body>
 </html>
